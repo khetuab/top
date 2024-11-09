@@ -8,16 +8,22 @@ class HTextField extends StatelessWidget {
     required this.name,
     required this.icon,
     required this.description,
+    required this.validator,
+    this.controller,
   });
 
   final String name;
   final String description;
   final IconData icon;
+  final String? Function(String?)? validator; // Updated validator type
+  final TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(6.0),
       child: TextFormField(
+        validator: validator,
+        controller: controller,
         decoration: InputDecoration(
           icon: Icon(icon, color: Color(0xFF00484B)), // Icon color
           labelText: name,

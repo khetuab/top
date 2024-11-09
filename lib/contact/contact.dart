@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:wkumsurh/constants/hvalidator.dart';
 import 'package:wkumsurh/major/widgets/hmajor_card.dart';
 import 'package:wkumsurh/major/widgets/hmajor_card_big.dart';
 
@@ -154,6 +155,7 @@ class Contact extends StatelessWidget {
 
                               // Email Field
                               HTextField(
+                                validator: (value)=> HValidator.validateEmail(value),
                                 icon: Icons.email,
                                 name: 'Email',
                                 description: 'Please enter your email',
@@ -162,6 +164,7 @@ class Contact extends StatelessWidget {
 
                               // Phone Number Field
                               HTextField(
+                                validator: (value)=>HValidator.validatePhoneNumber(value),
                                 icon: Icons.phone_forwarded,
                                 name: 'Phone number',
                                 description: 'Please enter your phone number',
@@ -290,6 +293,7 @@ class Contact extends StatelessWidget {
 
                           // Email Field
                           HTextField(
+                            validator:(value)=> HValidator.validateEmail(value),
                             icon: Icons.email,
                             name: 'Email',
                             description: 'Please enter your email',
@@ -298,6 +302,7 @@ class Contact extends StatelessWidget {
 
                           // Phone Number Field
                           HTextField(
+                            validator: (value)=> HValidator.validatePhoneNumber(value),
                             icon: Icons.phone_forwarded,
                             name: 'Phone number',
                             description: 'Please enter your phone number',

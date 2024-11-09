@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wkumsurh/constants/hvalidator.dart';
 
 import '../../register/register.dart';
 import 'htextfield.dart';
@@ -31,9 +32,10 @@ class HFormLogin extends StatelessWidget {
             HTextField(
               name: 'phone number',
               icon: Icons.phone,
-              description: 'Enter your phone number',
+              description: 'Enter your phone number', validator: (value)=> HValidator.validatePhoneNumber(value),
             ),
             HTextField(
+              validator: (value)=> HValidator.validateEmail(value),
               name: 'password',
               icon: Icons.password,
               description: 'Enter your password',

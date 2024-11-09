@@ -1,11 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wkumsurh/constants/hvalidator.dart';
 import '../../login/widgets/htextfield.dart';
 import '../../navbar.dart';
 import '../../widgets/back_ground.dart';
 
 class MajorRegister extends StatelessWidget {
-  const MajorRegister({super.key});
+   MajorRegister({super.key});
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController idController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -76,24 +84,32 @@ class MajorRegister extends StatelessWidget {
                               CrossAxisAlignment.start,
                               children: [
                                 HTextField(
+                                  validator: (value)=>HValidator.validateEmptyText('Full name', value),
                                   name: 'Full name',
+                                  controller: nameController,
                                   icon: Icons.person,
                                   description: 'write your full name',
                                 ),
                                 SizedBox(height: 10),
                                 HTextField(
+                                  validator: (value)=>HValidator.validatePhoneNumber(value),
+                                  controller: phoneController,
                                   name: 'Phone Number',
                                   icon: Icons.phone,
                                   description: 'write your Phone Number',
                                 ),
                                 SizedBox(height: 10),
                                 HTextField(
+                                  validator: (value)=>HValidator.validateEmail(value),
+                                  controller: emailController,
                                   name: 'Email',
                                   icon: Icons.email,
                                   description: 'write your Email',
                                 ),
                                 SizedBox(height: 10),
                                 HTextField(
+                                  controller: idController,
+                                  validator: (value)=>HValidator.validateEmptyText('ID number', value),
                                   name: 'ID number',
                                   icon: Icons.numbers,
                                   description: 'write your ID number',
@@ -160,74 +176,39 @@ class MajorRegister extends StatelessWidget {
                       )
                           : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          HTextField(
-                            name: 'Full name',
-                            icon: Icons.person,
-                            description: 'write your full name',
-                          ),
-                          SizedBox(height: 10),
-                          HTextField(
-                            name: 'Phone Number',
-                            icon: Icons.phone,
-                            description: 'write your Phone Number',
-                          ),
-                          SizedBox(height: 10),
-                          HTextField(
-                            name: 'Email',
-                            icon: Icons.email,
-                            description: 'write your Email',
-                          ),
-                          SizedBox(height: 10),
-                          HTextField(
-                            name: 'ID number',
-                            icon: Icons.numbers,
-                            description: 'write your ID number',
-                          ),
-                          SizedBox(height: 10),
-                          TextFormField(
-                            maxLines: 6,
-                            decoration: InputDecoration(
-                              hintText: 'Your comment',
-                              filled: true,
-                              fillColor: Color(0x55C3F9FB),
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 20),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: Color(0xFF00484B),
-                                  width: 1.5,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: Color(0xFF00484B),
-                                  width: 1.5,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: Color(0xFF00484B),
-                                  width: 2.0,
-                                ),
-                              ),
+                          children: [
+                            HTextField(
+                              validator: (value)=>HValidator.validateEmptyText('Full name', value),
+                              name: 'Full name',
+                              controller: nameController,
+                              icon: Icons.person,
+                              description: 'write your full name',
                             ),
-                          ),
-                          SizedBox(height: 20),
-                          SizedBox(
-                              width: screenWidth > 700?400:270,
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      color: Color(0xFF00484B)
-                                  ),
-                                  child: TextButton(onPressed: (){}, child: Text('Register',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Color(0xFFC3F9FB)),)))
-                          ),
-                          SizedBox(height: 100,)
-                        ],
+                            SizedBox(height: 10),
+                            HTextField(
+                              validator: (value)=>HValidator.validatePhoneNumber(value),
+                              controller: phoneController,
+                              name: 'Phone Number',
+                              icon: Icons.phone,
+                              description: 'write your Phone Number',
+                            ),
+                            SizedBox(height: 10),
+                            HTextField(
+                              validator: (value)=>HValidator.validateEmail(value),
+                              controller: emailController,
+                              name: 'Email',
+                              icon: Icons.email,
+                              description: 'write your Email',
+                            ),
+                            SizedBox(height: 10),
+                            HTextField(
+                              controller: idController,
+                              validator: (value)=>HValidator.validateEmptyText('ID number', value),
+                              name: 'ID number',
+                              icon: Icons.numbers,
+                              description: 'write your ID number',
+                            ),
+                          ]
                       ),
                     ),
                   ],

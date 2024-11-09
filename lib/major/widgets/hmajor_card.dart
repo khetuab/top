@@ -71,7 +71,7 @@ class HMajorCard extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const MajorRegister()));
+                      builder: (context) =>  MajorRegister()));
             },
             child: Text(
               'Register now',

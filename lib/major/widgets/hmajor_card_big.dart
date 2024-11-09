@@ -84,7 +84,7 @@ class HMajorCardBig extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const MajorRegister()));
+                              builder: (context) =>  MajorRegister()));
                     },
                     style: OutlinedButton.styleFrom(
                       backgroundColor: Color(0xFFC3F9FB),
