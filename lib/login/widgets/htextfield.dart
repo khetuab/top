@@ -1,11 +1,12 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wkumsurh/backend/controllers/auth_controller.dart';
 
 class HTextField extends StatelessWidget {
-  const HTextField({
+   HTextField({
     super.key,
     required this.name,
+    this.hintText,
     required this.icon,
     required this.description,
     required this.validator,
@@ -13,10 +14,13 @@ class HTextField extends StatelessWidget {
   });
 
   final String name;
+  final String? hintText;
   final String description;
   final IconData icon;
   final String? Function(String?)? validator; // Updated validator type
   final TextEditingController? controller;
+
+  final authController = AuthController.instance;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -28,7 +32,7 @@ class HTextField extends StatelessWidget {
           icon: Icon(icon, color: Color(0xFF00484B)), // Icon color
           labelText: name,
           labelStyle: TextStyle(color: Color(0xFF00484B)), // Label color
-          hintText: description,
+          hintText: hintText,
           hintStyle: TextStyle(color: Color(0x55C3F9fB)), // Hint text color
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0), // Rounded corners

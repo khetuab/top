@@ -11,8 +11,10 @@ import '../navbar.dart';
 import '../widgets/back_ground.dart';
 
 class Contact extends StatelessWidget {
-  const Contact({super.key});
+   Contact({super.key});
 
+  final _formKey = GlobalKey<FormState>();
+  final _formKey2 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -141,6 +143,7 @@ class Contact extends StatelessWidget {
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Form(
+                          key: _formKey,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -183,6 +186,7 @@ class Contact extends StatelessWidget {
 
                               // Text Area for Idea/Message
                               TextFormField(
+                                validator: (value)=> HValidator.validateEmptyText('feed back', value),
                                 maxLines: 6, // Set max lines for larger area
                                 decoration: InputDecoration(
                                   hintText: 'Please share your thoughts or feedback here',
@@ -217,7 +221,9 @@ class Contact extends StatelessWidget {
                               // Send Button
                               Center(
                                 child: OutlinedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    _formKey.currentState!.validate();
+                                  },
                                   style: OutlinedButton.styleFrom(
                                     backgroundColor: Color(0xFFC3F9FB),
                                     side: BorderSide(color: Color(0xFF00484B), width: 1),
@@ -279,6 +285,7 @@ class Contact extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Form(
+                      key: _formKey2,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -323,6 +330,7 @@ class Contact extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 30),
                               child: TextFormField(
+                                validator: (value)=> HValidator.validateEmptyText('feed back', value),
                                 maxLines: 8, // Increases height for a wider text area
                                 decoration: InputDecoration(
                                   hintText: 'Please share your thoughts or feedback here',
@@ -355,7 +363,9 @@ class Contact extends StatelessWidget {
                             ),
                           ),
                           OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _formKey2.currentState!.validate();
+                            },
                             style: OutlinedButton.styleFrom(
                               backgroundColor: Color(0xFFC3F9FB),
                               side: BorderSide(color: Color(0xFF00484B), width: 1),

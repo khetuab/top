@@ -1,8 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:wkumsurh/backend/controllers/auth_controller.dart';
+
+import '../../../models/user_model.dart';
 
 class MemberBigCard extends StatelessWidget {
-  const MemberBigCard({
+   MemberBigCard({
     super.key,
     required this.screenWidth,
     required this.image,
@@ -19,6 +24,7 @@ class MemberBigCard extends StatelessWidget {
   final String buttonText;
   final String icon;
 
+  final authController = AuthController.instance;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -75,7 +81,9 @@ class MemberBigCard extends StatelessWidget {
                     width: 300,
                     child: OutlinedButton(
 
-                      onPressed: () {},
+                      onPressed: () {
+                        _beAMember();
+                      },
                       style: OutlinedButton.styleFrom(
                         backgroundColor: Color(0xFFC3F9FB),
                         side: BorderSide(color: Color(0xFF00484B), width: 1),
@@ -120,4 +128,57 @@ class MemberBigCard extends StatelessWidget {
       ),
     );
   }
+
+   void _beAMember() async {
+     print('Attempting to be a member...');
+     String? userId = authController.firebaseUser.value?.uid;
+
+     if (userId == null) {
+       Get.snackbar('Error', 'User is not logged in', snackPosition: SnackPosition.BOTTOM);
+       return;
+     }
+
+     try {
+       // Fetch the user document using a query
+       QuerySnapshot querySnapshot = await authController.firestore
+           .collection('Users')
+           .where('Id', isEqualTo: userId)
+           .limit(1)
+           .get();
+
+       if (querySnapshot.docs.isEmpty) {
+         print('No user data found in the database');
+         Get.snackbar('Error', 'Cannot get user data in the database', snackPosition: SnackPosition.BOTTOM);
+         return;
+       }
+
+       DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
+       DocumentReference documentReference = documentSnapshot.reference;
+
+       // Check if the Member subcollection is empty
+       QuerySnapshot memberSnapshot = await documentReference.collection('Member').get();
+       if (memberSnapshot.docs.isNotEmpty) {
+         print('Member information already exists.');
+         Get.snackbar("Info", "Member information already exists.", snackPosition: SnackPosition.BOTTOM);
+         return;
+       }
+
+       // Create a new Member object
+       Member newMember = Member(
+         memberName: majorName,
+         payStatus: 'true',
+         regDate: DateTime.now().toIso8601String(),
+       );
+
+       // Save the Member object as a new document in the 'Member' subcollection
+       await documentReference.collection('Member').doc().set(newMember.toMap());
+
+       print('Member stored successfully in the subcollection!');
+       Get.snackbar("Success", "Member stored successfully!", snackPosition: SnackPosition.BOTTOM);
+     } catch (e) {
+       print('Error while storing Member in subcollection: $e');
+       Get.snackbar("Error", "Failed to store Member: $e", snackPosition: SnackPosition.BOTTOM);
+     }
+   }
+
 }

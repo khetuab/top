@@ -20,7 +20,19 @@ class Login extends StatelessWidget {
           Positioned(
             width: screenWidth,
             height: screenHeight * 0.2,
-            child: Navbar(screenWidth: screenWidth),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Image(
+                    image: AssetImage('assets/logo/logo.png'),
+                  ),
+                  const Spacer(),
+
+                  Text('WKUMSU',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30 ),)
+                ],
+              ),
+            ),
           ),
           Positioned(
             top: screenHeight * 0.2,
@@ -75,7 +87,8 @@ class Login extends StatelessWidget {
                       color: Color(0x55C3F9FB),
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: HFormLogin(screenWidth: screenWidth),
+                        child: HFormLogin(screenWidth: screenWidth)
+
                   ),
                 ],
               ),

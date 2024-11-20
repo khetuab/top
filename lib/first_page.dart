@@ -7,8 +7,8 @@ import 'package:wkumsurh/widgets/hlogo.dart';
 
 import 'navbar.dart';
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+class FirstPage extends StatelessWidget {
+  const FirstPage({super.key});
 
   @override
   Widget build(BuildContext context) {

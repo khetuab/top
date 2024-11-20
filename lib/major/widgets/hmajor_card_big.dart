@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../register/major_register.dart';
 
@@ -81,10 +83,7 @@ class HMajorCardBig extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: OutlinedButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>  MajorRegister()));
+                      _showSaveDialog(context);
                     },
                     style: OutlinedButton.styleFrom(
                       backgroundColor: Color(0xFFC3F9FB),
@@ -106,4 +105,53 @@ class HMajorCardBig extends StatelessWidget {
       ),
     );
   }
+
+  void _showSaveDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          icon: Icon(Icons.logout),
+          iconColor: Color(0xFF00484B),
+          backgroundColor: Color(0xFFC3F9FB),
+          title: const Text(
+            'Register',
+            style: TextStyle(fontSize: 20,color: Color(0xFF00484B),fontWeight: FontWeight.bold), // Increase font size
+          ),
+          content:  Text(
+            'Are you sure to Register to ${majorName} major?',
+            style: const TextStyle(fontSize: 18), // Increase font size
+          ),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  child: const Text(
+                    'No',
+                    style: TextStyle(fontSize: 18,color: Color(0xFF00484B),fontWeight: FontWeight.bold), // Increase font size
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: const Text(
+                    'Yes',
+                    style: TextStyle(fontSize: 18,color: Color(0xFF00484B),fontWeight: FontWeight.bold), // Increase font size
+                  ),
+                  onPressed: () {
+                    Get.to(()=> MajorRegister(majorName: majorName, majorDescription: majorDescription));
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+
+          ],
+        );
+      },
+    );
+  }
+
 }

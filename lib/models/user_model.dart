@@ -1,78 +1,111 @@
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '../formatters/formatter.dart';
-
 class UserModel {
-  final String id;
-  String firstName;
-  String lastName;
-  final String username;
-  final String email;
-  String phoneNumber;
-  String profilePicture;
+  final String? id;
+  String? fullname;
+  String? adress;
+  final String? email;
+  String? phoneNumber;
+  String? profilePicture;
+  Member? member;
+  Major? major;
 
   UserModel({
-    required this.id,
-    required this.firstName,
-    required this.lastName,
-    required this.username,
-    required this.email,
-    required this.phoneNumber,
-    required this.profilePicture,
+     this.id,
+     this.fullname,
+     this.adress,
+     this.email,
+     this.phoneNumber,
+     this.profilePicture,
+     this.major,
+     this.member,
   });
 
-  String get fullName => '$firstName $lastName';
-  String get formattedPhoneNo => TFormatter.formatPhoneNumber(phoneNumber);
 
-  static List<String> nameParts(String fullName) => fullName.split(" ");
-
-  static String generateUsername(String fullName) {
-    List<String> nameParts = fullName.split("_");
-    String firstName = nameParts[0].toLowerCase();
-    String lastName = nameParts.length > 1 ? nameParts[1].toLowerCase() : "";
-
-    String camelCaseUsername = "$firstName${lastName.isNotEmpty ? "_$lastName" : ""}";
-    String usernameWithPrefix = "cwt_$camelCaseUsername";
-    return usernameWithPrefix;
-  }
-
-  static UserModel empty() => UserModel(
-    id: '',
-    firstName: '',
-    lastName: '',
-    username: '',
-    email: '',
-    phoneNumber: '',
-    profilePicture: '',
-  );
-
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {
       'Id': id,
-      'FirstName': firstName,
-      'LastName': lastName,
-      'UserName': username,
+      'FullName': fullname,
       'Email': email,
+      'Address': adress,
       'PhoneNumber': phoneNumber,
       'ProfilePicture': profilePicture,
+      'Major': major?.toMap(),
+      'Member': member?.toMap(),
     };
   }
 
-  factory UserModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
-    final data = document.data();
-    if (data != null) {
-      return UserModel(
-        id: document.id,
-        firstName: data['FirstName'] ?? '',
-        lastName: data['LastName'] ?? '',
-        username: data['UserName'] ?? '',
-        email: data['Email'] ?? '',
-        phoneNumber: data['PhoneNumber'] ?? '',
-        profilePicture: data['ProfilePicture'] ?? '',
-      );
-    } else {
-      return UserModel.empty();
-    }
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
+      id: map['Id'] as String?,
+      fullname: map['FullName'] as String?,
+      adress: map['Address'] as String?,
+      email: map['Email'] as String?,
+      phoneNumber: map['PhoneNumber'] as String?,
+      profilePicture: map['ProfilePicture'] as String?,
+      member: map['Member'] != null ? Member.fromMap(map['Member']) : null,
+      major: map['Major'] != null ? Major.fromMap(map['Major']) : null,
+    );
+  }
+
+}
+
+class Member{
+  String? memberName;
+  String? payStatus;
+  String? regDate;
+
+  Member({
+    this.memberName,
+    this.payStatus,
+    this.regDate,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'MemberName': memberName,
+      'PayStatus': payStatus,
+      'RegDate': regDate,
+    };
+  }
+
+  factory Member.fromMap(Map<String, dynamic> map) {
+    return Member(
+      memberName: map['MemberName'],
+      payStatus: map['PayStatus'],
+      regDate: map['RegDate'],
+    );
+  }
+}
+
+class Major{
+  String? majorName;
+  String? majorLevel;
+  String? date;
+  String? islamicKnowledgeStatus;
+
+  Major({
+    this.majorName,
+    this.majorLevel,
+    this.date,
+    this.islamicKnowledgeStatus
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'MajorName': majorName ?? '',
+      'MajorLevel': majorLevel ?? '',
+      'Date': date ?? '',
+      'IslamicKnowledgeStatus': islamicKnowledgeStatus ?? '',
+    };
+  }
+
+
+  factory Major.fromMap(Map<String, dynamic> map) {
+    return Major(
+      majorName: map['MajorName'],
+      majorLevel: map['MajorLevel'],
+      date: map['Date'],
+      islamicKnowledgeStatus: map['IslamicKnowledgeStatus'],
+    );
   }
 }

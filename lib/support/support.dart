@@ -145,6 +145,7 @@ class HSupportCard extends StatelessWidget {
           Expanded(child: Text(description,maxLines: 5,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 12,color: Colors.white),)),
           OutlinedButton(
             onPressed: () {
+              _registerUserToMember();
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -164,6 +165,10 @@ class HSupportCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _registerUserToMember(){
+
   }
 }
 

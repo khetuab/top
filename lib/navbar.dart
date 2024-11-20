@@ -6,7 +6,7 @@ import 'package:wkumsurh/register/register.dart';
 import 'package:wkumsurh/support/support.dart';
 
 import 'account/account.dart';
-import 'first_page.dart';
+import 'home/home_page.dart';
 import 'major/major.dart';
 
 class Navbar extends StatelessWidget {
@@ -112,7 +112,7 @@ class Navbar extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Contact()));
+                                builder: (context) =>  Contact()));
                       },
                       child: Text(
                         'Contact',
@@ -146,7 +146,7 @@ class Navbar extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => const UserProfilePage()));
+                                builder: (_) =>  UserProfilePage(email: '',)));
                       },
                       child: const Text(
                         'Account',
@@ -236,7 +236,7 @@ class Navbar extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Contact()));
+                              builder: (context) =>  Contact()));
                     },
                     value: 'Contact',
                     child: Text('Contact'),
@@ -256,7 +256,7 @@ class Navbar extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => const UserProfilePage()));
+                              builder: (_) =>  UserProfilePage(email: '',)));
                     },
                     value: 'Account',
                     child: Text('Account'),

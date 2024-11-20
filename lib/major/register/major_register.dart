@@ -1,223 +1,228 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:wkumsurh/constants/hvalidator.dart';
-import '../../login/widgets/htextfield.dart';
-import '../../navbar.dart';
-import '../../widgets/back_ground.dart';
+import 'package:get/get.dart';
+import '../../backend/controllers/auth_controller.dart';
+import '../../models/user_model.dart';
 
 class MajorRegister extends StatelessWidget {
-   MajorRegister({super.key});
+  final String majorName;
+  final String majorDescription;
+
+  MajorRegister({
+    Key? key,
+    required this.majorName,
+    required this.majorDescription,
+  }) : super(key: key);
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController idController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController statusController = TextEditingController();
+  final authController = AuthController.instance;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    bool isLargeScreen = screenWidth > 700;
 
     return Scaffold(
-      body: Stack(
-        children: [
-          BackGround(screenWidth: screenWidth, screenHeight: screenHeight),
-          Positioned(
-            width: screenWidth,
-            height: screenHeight * 0.2,
-            child: Navbar(screenWidth: screenWidth),
-          ),
-          Positioned(
-            top: screenHeight * 0.2,
-            left: isLargeScreen ? screenWidth * 0.1 : 0,
-            right: isLargeScreen ? screenWidth * 0.1 : 0,
-            height: screenHeight * 0.85,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Register for Da’wa',
-                      style: TextStyle(
-                          color: Color(0xFF00484B),
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Poppins'),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Complete your registration to join the Da’wa major and connect with a supportive community dedicated to learning, growth, and positive impact.',
-                      style: TextStyle(
-                          color: Color(0xFF00484B),
-                          fontSize: isLargeScreen ? 20 : 14,
-                          fontWeight: FontWeight.normal,
-                          fontFamily: 'Poppins'),
-                    ),
-                    SizedBox(height: 30),
-                    Container(
-                      width: screenWidth,
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: Color(0xFF00484B)),
-                        borderRadius: BorderRadius.circular(15),
-                        gradient: LinearGradient(
-                          colors: [
-                            Color(0x55C3F9FB),
-                            Color(0x9900484B),
-                          ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                        ),
-                      ),
-                      child: isLargeScreen
-                          ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
-                                HTextField(
-                                  validator: (value)=>HValidator.validateEmptyText('Full name', value),
-                                  name: 'Full name',
-                                  controller: nameController,
-                                  icon: Icons.person,
-                                  description: 'write your full name',
-                                ),
-                                SizedBox(height: 10),
-                                HTextField(
-                                  validator: (value)=>HValidator.validatePhoneNumber(value),
-                                  controller: phoneController,
-                                  name: 'Phone Number',
-                                  icon: Icons.phone,
-                                  description: 'write your Phone Number',
-                                ),
-                                SizedBox(height: 10),
-                                HTextField(
-                                  validator: (value)=>HValidator.validateEmail(value),
-                                  controller: emailController,
-                                  name: 'Email',
-                                  icon: Icons.email,
-                                  description: 'write your Email',
-                                ),
-                                SizedBox(height: 10),
-                                HTextField(
-                                  controller: idController,
-                                  validator: (value)=>HValidator.validateEmptyText('ID number', value),
-                                  name: 'ID number',
-                                  icon: Icons.numbers,
-                                  description: 'write your ID number',
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 20),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(height: 20),
-                                TextFormField(
-                                  maxLines: 6,
-                                  decoration: InputDecoration(
-                                    hintText: 'Your comment',
-                                    filled: true,
-                                    fillColor: Color(0x55C3F9FB),
-                                    contentPadding: EdgeInsets.symmetric(
-                                        vertical: 15, horizontal: 20),
-                                    border: OutlineInputBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Color(0xFF00484B),
-                                        width: 1.5,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Color(0xFF00484B),
-                                        width: 1.5,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Color(0xFF00484B),
-                                        width: 2.0,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 20),
-                                SizedBox(
-                                    width: screenWidth > 700?400:270,
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(15),
-                                            color: Color(0xFF00484B)
-                                        ),
-                                        child: TextButton(onPressed: (){}, child: Text('Register',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color: Color(0xFFC3F9FB)),)))
-                                ),
-
-                              ],
-                            ),
-                          ),
-                        ],
-                      )
-                          : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            HTextField(
-                              validator: (value)=>HValidator.validateEmptyText('Full name', value),
-                              name: 'Full name',
-                              controller: nameController,
-                              icon: Icons.person,
-                              description: 'write your full name',
-                            ),
-                            SizedBox(height: 10),
-                            HTextField(
-                              validator: (value)=>HValidator.validatePhoneNumber(value),
-                              controller: phoneController,
-                              name: 'Phone Number',
-                              icon: Icons.phone,
-                              description: 'write your Phone Number',
-                            ),
-                            SizedBox(height: 10),
-                            HTextField(
-                              validator: (value)=>HValidator.validateEmail(value),
-                              controller: emailController,
-                              name: 'Email',
-                              icon: Icons.email,
-                              description: 'write your Email',
-                            ),
-                            SizedBox(height: 10),
-                            HTextField(
-                              controller: idController,
-                              validator: (value)=>HValidator.validateEmptyText('ID number', value),
-                              name: 'ID number',
-                              icon: Icons.numbers,
-                              description: 'write your ID number',
-                            ),
-                          ]
-                      ),
-                    ),
-                  ],
+      appBar: AppBar(
+        title: Text('Register for $majorName'),
+        backgroundColor: Color(0xFDAFEBEC),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Complete your registration for $majorName.',
+                style: TextStyle(
+                  color: Color(0xFF00484B),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
+              SizedBox(height: 20),
+              _buildTextField(
+                controller: TextEditingController(text: authController.userName.value),
+                label: 'Full Name',
+                hintText: 'Enter your full name',
+                icon: Icons.person,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Full Name is required.';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 15),
+              _buildTextField(
+                controller: TextEditingController(text: authController.userPhone.value),
+                label: 'Phone Number',
+                hintText: 'Enter your phone number',
+                icon: Icons.phone,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Phone Number is required.';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 15),
+              _buildTextField(
+                controller: TextEditingController(text: authController.userEmail.value),
+                label: 'Email',
+                hintText: 'Enter your email',
+                icon: Icons.email,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Email is required.';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 15),
+              _buildTextField(
+                controller: TextEditingController(text: authController.userLocation.value),
+                label: 'Address',
+                hintText: 'Enter your address',
+                icon: Icons.location_on,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Address is required.';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 15),
+              TextFormField(
+                controller: statusController,
+                maxLines: 4,
+                decoration: InputDecoration(
+                  labelText: 'Islamic Knowledge Status',
+                  hintText: 'Describe your Islamic knowledge status',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Islamic Knowledge Status is required.';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 30),
+              Center(
+                child: ElevatedButton(
+
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    backgroundColor: Color(0xFF00484B),
+                  ),
+                  onPressed: () {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      _registerMajor();
+                    } else {
+                      print('Form validation failed.');
+                    }
+                  },
+                  child: Text(
+                    'Register',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    required String hintText,
+    required IconData icon,
+    required String? Function(String?) validator,
+  }) {
+    return TextFormField(
+      readOnly: true,
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        hintText: hintText,
+        prefixIcon: Icon(icon, color: Color(0xFF00484B)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+      validator: validator,
+    );
+  }
+
+  void _registerMajor() async {
+    print('Attempting to store Major as a subcollection...');
+    String? userId = authController.firebaseUser.value?.uid;
+
+    if (userId == null) {
+      Get.snackbar("Error", "User is not logged in.", snackPosition: SnackPosition.BOTTOM);
+      return;
+    }
+
+    try {
+      // Fetch the user document using a query
+      QuerySnapshot querySnapshot = await authController.firestore
+          .collection('Users')
+          .where('Id', isEqualTo: userId) // Match the UID with the 'Id' field in Firestore
+          .limit(1) // Limit to one document
+          .get();
+
+      if (querySnapshot.docs.isEmpty) {
+        print('Error: User document does not exist for UID: $userId');
+        Get.snackbar("Error", "User not found in the database.", snackPosition: SnackPosition.BOTTOM);
+        return;
+      }
+
+      // Use the fetched document reference
+      DocumentSnapshot userDocSnapshot = querySnapshot.docs.first;
+      DocumentReference userDocRef = userDocSnapshot.reference;
+
+      // Check if the Major subcollection is empty
+      QuerySnapshot majorSnapshot = await userDocRef.collection('Major').get();
+      if (majorSnapshot.docs.isNotEmpty) {
+        print('Major information already exists.');
+        Get.snackbar("Info", "Major information already exists.", snackPosition: SnackPosition.BOTTOM);
+        return;
+      }
+
+      // Create a new Major object
+      Major newMajor = Major(
+        majorName: majorName,
+        majorLevel: 'Level 1',
+        date: DateTime.now().toIso8601String(),
+        islamicKnowledgeStatus: statusController.text.trim(),
+      );
+
+      // Save the Major object as a new document in the 'Major' subcollection
+      await userDocRef.collection('Major').doc().set(newMajor.toMap());
+
+      print('Major stored successfully in the subcollection!');
+      Get.snackbar("Success", "Major stored successfully!", snackPosition: SnackPosition.BOTTOM);
+    } catch (e) {
+      print('Error storing Major in subcollection: $e');
+      Get.snackbar("Error", "Failed to store Major: $e", snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
 }
