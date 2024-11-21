@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../navbar.dart';
 import '../widgets/back_ground.dart';
 import 'member/member.dart';
@@ -53,13 +54,13 @@ class Support extends StatelessWidget {
                 SizedBox(height: 30,),
                 Row(
                   children: [
-                    HSupportCard(screenWidth: screenWidth, title: 'Donate', description: 'Help us fund student programs, events, and resources by making a donation.Every contribution,no matter the size, goes directly to supporting our initiatives', buttonname: 'Donate now',),
+                    HSupportCard(screenWidth: screenWidth, title: 'Membership', description: 'Become part of a supportive community dedicated to personal growth, learning, and making a positive impact. Join us to connect with fellow students, access exclusive events, and contribute to our shared mission', buttonname: 'Join now', onPressed: _navigateUserToMemberPage,),
                     SizedBox(width: 20,),
-                    HSupportCard(screenWidth: screenWidth, title: 'Sponsorship', description: 'Partner with us by sponsoring an event.Sponsorship helps us create impactful experiences for our community while giving your organization positive exposure.', buttonname: 'Sponsor now',),
+                    HSupportCard(screenWidth: screenWidth, title: 'Sponsorship', description: 'Partner with us by sponsoring an event.Sponsorship helps us create impactful experiences for our community while giving your organization positive exposure.', buttonname: 'Sponsor now', onPressed:(){ _showSponsorDialog(context);},),
                   ],
                 ),
                     SizedBox(height: 20,),
-                    HSupportCard(screenWidth: screenWidth, title: 'Membership', description: 'Become part of a supportive community dedicated to personal growth, learning, and making a positive impact. Join us to connect with fellow students, access exclusive events, and contribute to our shared mission', buttonname: 'Join now',),
+                    HSupportCard(screenWidth: screenWidth, title: 'Donate', description: 'Help us fund student programs, events, and resources by making a donation.Every contribution,no matter the size, goes directly to supporting our initiatives', buttonname: 'Donate now', onPressed:(){ _showDonateDialog(context);}),
                     SizedBox(height: 50,),
                   ],
                 ),
@@ -91,11 +92,11 @@ class Support extends StatelessWidget {
                     SizedBox(height: 30,),
                     Column(
                       children: [
-                        HSupportCard(screenWidth: screenWidth, title: 'Donate', description: 'Help us fund student programs, events, and resources by making a donation.Every contribution,no matter the size, goes directly to supporting our initiatives', buttonname: 'Donate now',),
+                        HSupportCard(screenWidth: screenWidth, title: 'Membership', description: 'Become part of a supportive community dedicated to personal growth, learning, and making a positive impact. Join us to connect with fellow students, access exclusive events, and contribute to our shared mission', buttonname: 'Join now',onPressed: _navigateUserToMemberPage,),
                         SizedBox(height: 20,),
-                        HSupportCard(screenWidth: screenWidth, title: 'Sponsorship', description: 'Partner with us by sponsoring an event.Sponsorship helps us create impactful experiences for our community while giving your organization positive exposure.', buttonname: 'Sponsor now',),
+                        HSupportCard(screenWidth: screenWidth, title: 'Sponsorship', description: 'Partner with us by sponsoring an event.Sponsorship helps us create impactful experiences for our community while giving your organization positive exposure.', buttonname: 'Sponsor now', onPressed:(){ _showSponsorDialog(context);},),
                         SizedBox(height: 20,),
-                        HSupportCard(screenWidth: screenWidth, title: 'Membership', description: 'Become part of a supportive community dedicated to personal growth, learning, and making a positive impact. Join us to connect with fellow students, access exclusive events, and contribute to our shared mission', buttonname: 'Join now',),
+                        HSupportCard(screenWidth: screenWidth, title: 'Donate', description: 'Help us fund student programs, events, and resources by making a donation.Every contribution,no matter the size, goes directly to supporting our initiatives', buttonname: 'Donate now', onPressed:() {_showDonateDialog(context);},),
                         SizedBox(height: 50,),
                       ],
                     )
@@ -109,14 +110,100 @@ class Support extends StatelessWidget {
       ),
     );
   }
+
+  Future<void> _navigateUserToMemberPage()async{
+    Get.to(()=>const Member());
+  }
+
+  Future<void> _showSponsorDialog(BuildContext context)async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          icon: Icon(Icons.logout),
+          iconColor: Color(0xFF00484B),
+          backgroundColor: Color(0xFFC3F9FB),
+          title: const Text(
+            'Sponsor via',
+            style: TextStyle(fontSize: 20,color: Color(0xFF00484B),fontWeight: FontWeight.bold), // Increase font size
+          ),
+          content:  Text(
+            'Here are our sponsorship options:\n\n1. Corporate Sponsorship: Highlight your brand.\n2. Event Sponsorship: Support an impactful community event.',
+            style: const TextStyle(fontSize: 18), // Increase font size
+          ),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  child: const Text(
+                    'Back',
+                    style: TextStyle(fontSize: 18,color: Color(0xFF00484B),fontWeight: FontWeight.bold), // Increase font size
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showDonateDialog(BuildContext context)async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          icon: Icon(Icons.logout),
+          iconColor: Color(0xFF00484B),
+          backgroundColor: Color(0xFFC3F9FB),
+          title: const Text(
+            'Donate via',
+            style: TextStyle(fontSize: 20,color: Color(0xFF00484B),fontWeight: FontWeight.bold), // Increase font size
+          ),
+          content:  Text(
+            'Here are my Account Numbers\n\t1.CBE 1000000000000 \n\t2.Hijra 1234567898765\n\tWe also need material support',
+            style: const TextStyle(fontSize: 18), // Increase font size
+          ),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  child: const Text(
+                    'Back',
+                    style: TextStyle(fontSize: 18,color: Color(0xFF00484B),fontWeight: FontWeight.bold), // Increase font size
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+
+          ],
+        );
+      },
+    );
+  }
+
 }
 
 class HSupportCard extends StatelessWidget {
-  const HSupportCard({
+   HSupportCard({
     super.key,
-    required this.screenWidth, required this.title, required this.description, required this.buttonname,
+    required this.screenWidth,
+    required this.title,
+    required this.description,
+    required this.buttonname,
+    required this.onPressed
   });
 
+  VoidCallback onPressed;
   final double screenWidth;
   final String title;
   final String description;
@@ -144,13 +231,8 @@ class HSupportCard extends StatelessWidget {
                 0xaa061e1f)),),SizedBox(height: 5,),
           Expanded(child: Text(description,maxLines: 5,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 12,color: Colors.white),)),
           OutlinedButton(
-            onPressed: () {
-              _registerUserToMember();
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const Member()));
-            },            style: OutlinedButton.styleFrom(
+            onPressed:onPressed,
+            style: OutlinedButton.styleFrom(
               backgroundColor: Color(0x55C3F9FB),
               side: BorderSide(color: Color(0xFF00484B), width: 1),
             ),
@@ -167,8 +249,5 @@ class HSupportCard extends StatelessWidget {
     );
   }
 
-  void _registerUserToMember(){
-
-  }
 }
 

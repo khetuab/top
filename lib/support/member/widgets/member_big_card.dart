@@ -82,7 +82,7 @@ class MemberBigCard extends StatelessWidget {
                     child: OutlinedButton(
 
                       onPressed: () {
-                        _beAMember();
+                        _beAMemberDialog(context);
                       },
                       style: OutlinedButton.styleFrom(
                         backgroundColor: Color(0xFFC3F9FB),
@@ -179,6 +179,54 @@ class MemberBigCard extends StatelessWidget {
        print('Error while storing Member in subcollection: $e');
        Get.snackbar("Error", "Failed to store Member: $e", snackPosition: SnackPosition.BOTTOM);
      }
+   }
+
+   Future<void> _beAMemberDialog(BuildContext context)async {
+     showDialog(
+       context: context,
+       builder: (BuildContext context) {
+         return AlertDialog(
+           icon: Icon(Icons.logout),
+           iconColor: Color(0xFF00484B),
+           backgroundColor: Color(0xFFC3F9FB),
+           title: const Text(
+             'Be A Member',
+             style: TextStyle(fontSize: 20,color: Color(0xFF00484B),fontWeight: FontWeight.bold), // Increase font size
+           ),
+           content:  Text(
+             ' Are you sure to be a member of ${majorName}',
+             style: const TextStyle(fontSize: 18), // Increase font size
+           ),
+           actions: <Widget>[
+             Row(
+               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               children: [
+                 TextButton(
+                   child: const Text(
+                     'Back',
+                     style: TextStyle(fontSize: 18,color: Color(0xFF00484B),fontWeight: FontWeight.bold), // Increase font size
+                   ),
+                   onPressed: () {
+                     Navigator.of(context).pop();
+                   },
+                 ),
+                 TextButton(
+                   child: const Text(
+                     'Yes',
+                     style: TextStyle(fontSize: 18,color: Color(0xFF00484B),fontWeight: FontWeight.bold), // Increase font size
+                   ),
+                   onPressed: () {
+                     _beAMember();
+                     Navigator.of(context).pop();
+                   },
+                 ),
+               ],
+             ),
+
+           ],
+         );
+       },
+     );
    }
 
 }

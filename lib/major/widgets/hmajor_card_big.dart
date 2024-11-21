@@ -141,8 +141,8 @@ class HMajorCardBig extends StatelessWidget {
                     style: TextStyle(fontSize: 18,color: Color(0xFF00484B),fontWeight: FontWeight.bold), // Increase font size
                   ),
                   onPressed: () {
-                    Get.to(()=> MajorRegister(majorName: majorName, majorDescription: majorDescription));
                     Navigator.of(context).pop();
+                    Get.to(()=> MajorRegister(majorName: majorName, majorDescription: majorDescription));
                   },
                 ),
               ],

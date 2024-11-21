@@ -1,20 +1,70 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:wkumsurh/backend/controllers/auth_controller.dart';
 import 'package:wkumsurh/constants/hvalidator.dart';
-import 'package:wkumsurh/major/widgets/hmajor_card.dart';
-import 'package:wkumsurh/major/widgets/hmajor_card_big.dart';
-
-import '../constants/htexts.dart';
 import '../login/widgets/htextfield.dart';
 import '../navbar.dart';
 import '../widgets/back_ground.dart';
+import 'package:http/http.dart' as http;
+import 'package:emailjs/emailjs.dart' as emailjs;
+import 'dart:convert';
 
 class Contact extends StatelessWidget {
    Contact({super.key});
 
   final _formKey = GlobalKey<FormState>();
   final _formKey2 = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController messageController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final authController = AuthController.instance;
+   Future ssendEmail() async {
+     final url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
+
+     // Constants
+     const serviceId = "service_v9mbdk4";
+     const templateId = "template_s5wvb0t";
+     const userId = "7VhfH6chmMCENHZnW";
+     // Debug: Log all parameters and URLs
+     print("Service ID: $serviceId");
+     print("Template ID: $templateId");
+     print("User ID: $userId");
+     print("EmailJS API URL: $url");
+
+     // Template parameters
+     final templateParams = {
+       "message": messageController.text,
+       "user_email": authController.userEmail.value,
+     };
+     print("Template Params: $templateParams");
+
+     // Sending the request
+     try {
+       final response = await http.post(
+         url,
+         headers: {'Content-Type': 'application/json'},
+         body: json.encode({
+           "service_id": serviceId,
+           "template_id": templateId,
+           "user_id": userId,
+           "template_params": templateParams,
+         }),
+       );
+
+       // Debug: Log the status code and response
+       print("Response Status Code: ${response.statusCode}");
+       print("Response Body: ${response.body}");
+
+       return response.statusCode;
+     } catch (error) {
+       // Debug: Log the error
+       print("Error occurred: $error");
+       return null;
+     }
+   }
+
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -158,6 +208,7 @@ class Contact extends StatelessWidget {
 
                               // Email Field
                               HTextField(
+                                controller: TextEditingController(text: authController.userEmail.value),
                                 validator: (value)=> HValidator.validateEmail(value),
                                 icon: Icons.email,
                                 name: 'Email',
@@ -167,6 +218,7 @@ class Contact extends StatelessWidget {
 
                               // Phone Number Field
                               HTextField(
+                                controller: TextEditingController(text: authController.userPhone.value),
                                 validator: (value)=>HValidator.validatePhoneNumber(value),
                                 icon: Icons.phone_forwarded,
                                 name: 'Phone number',
@@ -186,6 +238,7 @@ class Contact extends StatelessWidget {
 
                               // Text Area for Idea/Message
                               TextFormField(
+                                controller:messageController ,
                                 validator: (value)=> HValidator.validateEmptyText('feed back', value),
                                 maxLines: 6, // Set max lines for larger area
                                 decoration: InputDecoration(
@@ -222,6 +275,7 @@ class Contact extends StatelessWidget {
                               Center(
                                 child: OutlinedButton(
                                   onPressed: () {
+                                    ssendEmail();
                                     _formKey.currentState!.validate();
                                   },
                                   style: OutlinedButton.styleFrom(
@@ -300,6 +354,7 @@ class Contact extends StatelessWidget {
 
                           // Email Field
                           HTextField(
+                            controller: TextEditingController(text: authController.userEmail.value),
                             validator:(value)=> HValidator.validateEmail(value),
                             icon: Icons.email,
                             name: 'Email',
@@ -309,6 +364,7 @@ class Contact extends StatelessWidget {
 
                           // Phone Number Field
                           HTextField(
+                            controller: TextEditingController(text: authController.userPhone.value),
                             validator: (value)=> HValidator.validatePhoneNumber(value),
                             icon: Icons.phone_forwarded,
                             name: 'Phone number',
@@ -330,6 +386,7 @@ class Contact extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 30),
                               child: TextFormField(
+                                controller: messageController,
                                 validator: (value)=> HValidator.validateEmptyText('feed back', value),
                                 maxLines: 8, // Increases height for a wider text area
                                 decoration: InputDecoration(
@@ -364,6 +421,7 @@ class Contact extends StatelessWidget {
                           ),
                           OutlinedButton(
                             onPressed: () {
+                              ssendEmail();
                               _formKey2.currentState!.validate();
                             },
                             style: OutlinedButton.styleFrom(

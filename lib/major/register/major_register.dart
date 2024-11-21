@@ -202,7 +202,7 @@ class MajorRegister extends StatelessWidget {
       QuerySnapshot majorSnapshot = await userDocRef.collection('Major').get();
       if (majorSnapshot.docs.isNotEmpty) {
         print('Major information already exists.');
-        Get.snackbar("Info", "Major information already exists.", snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar("Warning", "You Have Already Regitered to Majors.", snackPosition: SnackPosition.BOTTOM,colorText: Colors.red,icon: Icon(Icons.warning));
         return;
       }
 
@@ -218,7 +218,7 @@ class MajorRegister extends StatelessWidget {
       await userDocRef.collection('Major').doc().set(newMajor.toMap());
 
       print('Major stored successfully in the subcollection!');
-      Get.snackbar("Success", "Major stored successfully!", snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Success", "Major stored successfully!", snackPosition: SnackPosition.BOTTOM,icon: Icon(Icons.check_circle_outline));
     } catch (e) {
       print('Error storing Major in subcollection: $e');
       Get.snackbar("Error", "Failed to store Major: $e", snackPosition: SnackPosition.BOTTOM);
